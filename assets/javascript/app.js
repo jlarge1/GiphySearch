@@ -2,6 +2,7 @@
 var animals = ["dolphin", "guinea pig", "parakeet", "racoon", "cow", "puppy", "cat", "lion", "falcon", "panda", "eagle", "otter", "penguin", "wolf", "duck", "cricket", "ferret", "iguana", "chicken", "iguana"]
 var still = [];
 var moving = [];
+var response;
 
 function displayGifs() {
     var searchTerm = $(this).attr("data-name");
@@ -11,7 +12,8 @@ function displayGifs() {
     $.ajax({
         url: queryURL,
         method: "GET"
-    }).then(function (response) {
+    }).then(function (x) {
+        response = x;
         console.log(response);
         console.log(response.data[0].images.downsized_still.url);
         $("#top").empty();
@@ -24,19 +26,6 @@ function displayGifs() {
             console.log("should have cards");
         };
 
-        $(document).on("click", ".gif", function () {
-            var item = $(this).attr("id");
-            var imageNum = $(this).attr("imageNum");
-            if (imageNum == 1) {
-                $(this).attr("src", response.data[item].images.fixed_height.url);
-                $(this).attr("imageNum", 0);
-            } 
-            if (imageNum == 0) {
-                $(this).attr("src", response.data[item].images.fixed_height_still.url);
-                $(this).attr("imageNum", 1); 
-            }
-            
-        });
 
     });
 }
@@ -55,7 +44,7 @@ function createButtons() {
 
 createButtons();
 
-$("#add-searchTerm").on("click", function (event) {
+$("#add-searchTerm").on("clic", function (event) {
     event.preventDefault();
     var animal = $("#searchTerm-input").val().trim();
     animals.push(animal);
@@ -64,3 +53,17 @@ $("#add-searchTerm").on("click", function (event) {
 });
 
 $(document).on("click", ".button", displayGifs);
+
+$(document).on("click", ".gif", function () {
+    var item = $(this).attr("id");
+    var imageNum = $(this).attr("imageNum");
+    if (imageNum == 1) {
+        $(this).attr("src", response.data[item].images.fixed_height.url);
+        $(this).attr("imageNum", 0);
+    } 
+    if (imageNum == 0) {
+        $(this).attr("src", response.data[item].images.fixed_height_still.url);
+        $(this).attr("imageNum", 1); 
+    }
+    
+});
