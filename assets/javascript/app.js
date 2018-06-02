@@ -16,14 +16,15 @@ function displayGifs() {
         response = x;
         console.log(response);
         console.log(response.data[0].images.downsized_still.url);
-        $("#top").empty();
+        $("#left").empty();
         
 
         for (i = 0; i < 10; i++) {
             var newCard = $("<div>").addClass("gifDisplay");
             newCard.append("<img src=" + response.data[i].images.fixed_height_still.url + ' class="gif" imageNum="1" id="' + i + '">');
-            $("#top").append(newCard);
+            $("#left").append(newCard);
             console.log("should have cards");
+            console.log(response.data[i].images.fixed_height_still.url);
         };
 
 
@@ -44,11 +45,10 @@ function createButtons() {
 
 createButtons();
 
-$("#add-searchTerm").on("clic", function (event) {
+$("#add-searchTerm").on("click", function (event) {
     event.preventDefault();
     var animal = $("#searchTerm-input").val().trim();
     animals.push(animal);
-
     createButtons();
 });
 
